@@ -21,7 +21,7 @@ services:
   angular:
     container_name: 'App-Angular'
     build:
-      context: ~/src/chatRealTimeAngular
+      context: ~/src/chatRealTimeLocal
       dockerfile: Dockerfile
     restart: always
     environment:
