@@ -1,0 +1,46 @@
+version: '3.1'
+
+
+
+services:
+
+
+  reverse-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: 'Reverse-Proxy'
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+
+  angular:
+    container_name: 'App-Angular'
+    build:
+      context: ~/src/chatRealTimeAngular
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - VIRTUAL_HOST=angular.midominio.com
+
+
+
+  node:
+    container_name: 'Api-Node'
+    build:
+      context: ~/src/chatRealTimeNodeLocal
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - VIRTUAL_HOST=apinode.midominio.com
+
+
+
+volumes:
+  certs:
+  html:
+  vhostd:
